@@ -3,10 +3,14 @@ const path = require("path");
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, "../public");
-
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
+const hbs = require("hbs");
 app.use(express.static(publicDirectoryPath));
 
 app.set("view engine", "hbs");
+app.set("views", viewsPath);
+hbs.registerPartials(partialsPath);
 
 app.get("", (req, res) => {
   res.render("index", {
@@ -18,7 +22,7 @@ app.get("", (req, res) => {
 app.get("/about", (req, res) => {
   res.render("about", {
     title: "About Me",
-    name: "Abhishek Prajapat",
+    name: "Anurag Prajapat",
   });
 });
 
@@ -32,6 +36,7 @@ app.get("/weather", (req, res) => {
 app.get("/help", (req, res) => {
   res.render("help", {
     title: "From a help file",
+    name: "Ankita Prajapat",
   });
 });
 
