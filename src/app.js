@@ -40,6 +40,22 @@ app.get("/help", (req, res) => {
   });
 });
 
+app.get("/help/*", (req, res) => {
+  res.render("404", {
+    title: "404",
+    errorMessage: "Help Article Not Found",
+    name: "Abhishek Prajapat",
+  });
+});
+
+app.get("*", (req, res) => {
+  res.render("404", {
+    title: "404",
+    errorMessage: "404 Error! Page not found",
+    name: "Abhishek Prajapat",
+  });
+});
+
 app.listen(3000, () => {
   console.log("Server is up and running");
 });
