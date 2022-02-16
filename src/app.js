@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 
 const app = express();
+const port = process.env.PORT || 3000;
 const publicDirectoryPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
@@ -91,6 +92,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server is up and running");
+app.listen(port, () => {
+  console.log("Server is up and running on port " + port);
 });
