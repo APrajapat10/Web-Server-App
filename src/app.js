@@ -6,6 +6,8 @@ const publicDirectoryPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
 const hbs = require("hbs");
+const forecast = require("./utils/forecast");
+const geocode = require("./utils/geocode");
 app.use(express.static(publicDirectoryPath));
 
 app.set("view engine", "hbs");
@@ -32,10 +34,25 @@ app.get("/weather", (req, res) => {
       error: "Please provide an address",
     });
   }
-  res.send({
-    address: req.query.address,
-    location: "Philadelphia",
-    forecast: "Snowing",
+  const address = req.query.address;
+  geocode(address, (error, { latitude, longitude, location } = {}) => {
+    if (error) {
+      return res.send({
+        error,
+      });
+    }
+    forecast(latitude, longitude, (error, forecastData) => {
+      if (error) {
+        return res.send({
+          error,
+        });
+      }
+      res.send({
+        address,
+        location,
+        forecast: forecastData,
+      });
+    });
   });
 });
 
